@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>Distribuidores</title>
+    </head>
+    <body>
+        <ui:composition template="./../inicio/inicio.xhtml">
+            <ui:define name="content">
+                
+                <h:form id="formDialog">
+                    <p:commandButton value="Nuevo Registro" type="button" onclick="PF('dlg2').show()"/>
+                   
+            
+                    <p:panel header="Filtros" style="text-align: center">
+
+                        <p:commandButton icon="ui-icon-search" action="#{distribuidoresBean.listarDistribuidoresFiltro()}" update="dtDistribuidores"/>
+                        <p:outputLabel value="  Clave distribuidor  "/>
+                        <p:inputText value="#{distribuidoresBean.distribuidor.claveDistribuidor}"/>
+                        <p:outputLabel value="  Nombre  "/>
+                        <p:inputText value="#{distribuidoresBean.distribuidor.nombre}"/>
+
+                    </p:panel>
+
+                    <p:panel id="pnlDisTbl">
+
+                        <p:dataTable id="dtDistribuidores" var="distribuidor" value="#{distribuidoresBean.listaDistribuidorFiltro}" editable="true"
+                                     rows="5" paginator="true" widgetVar="dtDistribuidor" sortMode="single">
+                            <p:ajax event="rowEdit" listener="#{distribuidoresBean.modificarDistribuidores(distribuidor)}" 
+                                    update="dtDistribuidores"/>
+                            <p:ajax event="sort" process="@all" update="dtDistribuidores"/>
+
+                            <p:column style="width: 3rem">
+                                <p:rowEditor/>
+
+                                <p:commandButton title="Eliminar" action="#{distribuidoresBean.almacenarId(distribuidor)}" 
+                                                 onclick="PF('eliminarDialog').show()" immediate="true" icon="ui-icon-trash" />
+                                <p:dialog header="Elminiar Registro" widgetVar="eliminarDialog" >
+                                    <p:growl showDetail="true"/>
+                                    <div style="text-align: center">
+                                        <p:outputLabel value="¿Eliminar este registro?"/>
+                                    </div>
+                                    <br/>
+                                    <p:commandButton value="Aceptar" action="#{distribuidoresBean.eliminarDistribuidores()}" immediate="true"
+                                                     update="dtDistribuidores"/>
+                                    <p:commandButton value="Cancelar" onclick="PF('eliminarDialog').hide()"/>
+                                </p:dialog>
+                            </p:column>
+
+                            <p:column headerText="Clave Distribuidor" sortBy="#{distribuidor.claveDistribuidor}" filterBy="#{distribuidor.claveDistribuidor}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{distribuidor.claveDistribuidor}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{distribuidor.claveDistribuidor}" 
+                                                     required="true" maxlength="20"
+                                                     requiredMessage="Clave Distribuidor Obligatorio" 
+                                                     validatorMessage="Clave Distribuidor Solo letras y Numéros">
+                                            <f:validateRegex pattern="[A-Za-z0-9]+"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Nombre" sortBy="#{distribuidor.nombre}" filterBy="#{distribuidor.nombre}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{distribuidor.nombre}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{distribuidor.nombre}"
+                                                     required="true" maxlength="20"
+                                                     requiredMessage="Clave Distribuidor Obligatorio" 
+                                                     validatorMessage="Clave Distribuidor Solo letras y Numéros">
+                                            <f:validateRegex pattern="[A-Za-z0-9À-ÿ\u00f1\u00d1 ]+"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Activo" sortBy="#{distribuidor.activo}" filterBy="#{distribuidor.activo}">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('dtDistribuidor').filter()">
+                                        <f:selectItem itemLabel="-Estado-"/>
+                                        <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                        <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{distribuidor.activo==1 ? 'Activo' : 'Inactivo'}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{distribuidor.activo}">
+                                            <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                            <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+                
+                 <p:dialog header="Nuevo Registro" widgetVar="dlg2" showEffect="fade" >
+                     <h:form>
+                        <p:panel id="pnlReg">
+                            <p:messages id="msgs"/>
+                            <p:panelGrid id="pgRegistro" columns="2">
+                                <p:outputLabel value="Clave Distribuidor"/>
+                                <p:inputText id="txtClaveDistribuidor" value="#{distribuidoresBean.distribuidorRegistrar.claveDistribuidor}" 
+                                             required="true" maxlength="20"
+                                             requiredMessage="Clave Distribuidor Obligatorio" 
+                                             validatorMessage="Clave Distribuidor Solo letras y Numéros">
+                                    <f:validateRegex pattern="[A-Za-z0-9]+"/>
+                                </p:inputText>
+                                <p:outputLabel value="Nombre"/>
+                                <p:inputText id="txtNombre" value="#{distribuidoresBean.distribuidorRegistrar.nombre}" 
+                                             required="true" maxlength="200"
+                                             requiredMessage="Nombre Obligatorio" 
+                                             validatorMessage="Nombre Solo letras y Numéros">
+                                    <f:validateRegex pattern="[A-Za-z0-9À-ÿ\u00f1\u00d1 ]+"/>
+                                </p:inputText>
+                            </p:panelGrid>
+                            <p:commandButton id="btnRegistrar" value="Registrar" actionListener="#{distribuidoresBean.registrarDistribuidores()}"
+                                             update=":formDialog:dtDistribuidores,msgs"/>
+                        </p:panel>
+                         </h:form>
+                    </p:dialog>
+                
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

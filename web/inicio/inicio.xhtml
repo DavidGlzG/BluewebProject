@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Inicio</title>
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico"/>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+    </h:head>
+
+    <h:body style="background: grey">
+
+        <h:form>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <div class="p-text-center">
+                    <p:graphicImage url="/images/loading.gif"/>
+                </div>
+            </p:dialog>
+        </h:form>
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="100" header="Top" resizable="false">
+                <h:form>
+                    <p:commandButton action="#{usuariosBean.salirSesion()}" value="Salir" style="margin-right:20px;"/>
+                    <p:outputLabel value="Bienvenido #{inicioBean.nombreUsuario}"/>
+
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="300" header="Menú" resizable="false">
+                <h:form>
+                    <p:menu>
+                        <p:submenu>
+                            <p:menuitem value="Imagenes" url="/../DavidProject/faces/inicio/imagenes.xhtml"/>
+                            <p:menuitem value="Clientes" url="/../DavidProject/faces/catalogo/clientes.xhtml"/>
+                            <p:menuitem value="Distribuidores" url="/../DavidProject/faces/catalogo/distribuidores.xhtml"/>
+                        </p:submenu>
+                    </p:menu>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="content"> 
+                    <p:graphicImage url="/images/ocpblack.jpg" />
+                </ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+
+        <p:idleMonitor onidle="PF('idleDialog').show();" timeout="60000" >
+            <p:dialog header="Sesion Expiro" widgetVar="idleDialog" modal="true">
+                <h:form id="dl">
+                    <h:outputText value="Se acabó tu tiempo de sesión" />
+                    <br></br>
+                    <p:commandButton value="Login" actionListener="#{usuariosBean.salirSesion()}" onclick="PF('idleDialog').hide();" />
+                </h:form>
+            </p:dialog>
+        </p:idleMonitor>
+
+
+
+
+
+    </h:body>
+</html>
