@@ -30,10 +30,12 @@ and open the template in the editor.
         </h:form>
         <p:layout fullPage="true">
 
-            <p:layoutUnit position="north" size="100" header="Top" resizable="false">
+            <p:layoutUnit position="north" size="180" header="DavidProyect" resizable="false">
                 <h:form>
-                    <p:commandButton action="#{usuariosBean.salirSesion()}" value="Cerrar sesión" icon="ui-icon-power" style="margin-right:20px;"/>
-                    <p:outputLabel value="Bienvenido #{inicioBean.nombreUsuario}"/>
+                    <p:graphicImage url="/images/ocpblack.jpg" width="100px"/>
+                    <p:outputLabel value="Bienvenido #{inicioBean.nombreUsuario}" style="float: right"/><br/>
+                    <p:commandButton action="#{usuariosBean.salirSesion()}" value="Cerrar sesión" icon="ui-icon-power" style="float: right; margin-top: -30px"/>
+                    
 
                 </h:form>
             </p:layoutUnit>
