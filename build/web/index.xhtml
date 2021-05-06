@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Login</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
+    </h:head>
+
+    <h:body style="background: grey">
+        <h:form style="margin: 0 auto;">
+            <p:panel id="pnlLogin" header="Login" style="width: 25%; margin: 0 auto;" >
+                <p:growl id="msgs" showDetail="true"/>
+                <p:graphicImage url="/images/ocpLogo.jpg" height="580" />
+                <p:panelGrid id="pnlGridLogin" layout="grid" columns="2" >
+
+                    <p:outputLabel value="Usuario" ></p:outputLabel>
+                    <p:inputText value="#{usuariosBean.usuario.usuario}" style="width: 100%"
+                                 required="true"
+                                 requiredMessage="Usuario Obligatorio" 
+                                 maxlength="100">
+                        <f:validateRegex pattern="[A-Za-zÀ-ÿ0-9\u00f1\u00d1 ]+" />
+                    </p:inputText>
+
+                    <p:outputLabel value="Contraseña" ></p:outputLabel>
+                    <p:password value="#{usuariosBean.usuario.password}" style="width: 100%"
+                                 required="true"
+                                 requiredMessage="Password Obligatorio" 
+                                 maxlength="100">
+                        <f:validateRegex pattern="[A-Za-zÀ-ÿ0-9\u00f1\u00d1 ]+" />
+                    </p:password>
+                </p:panelGrid>
+                <p:commandButton value="Login" action="#{usuariosBean.validarUsuario()}" style="width: 100%" update="pnlLogin"></p:commandButton>
+
+            </p:panel>
+            
+        </h:form>
+    </h:body>
+</html>
