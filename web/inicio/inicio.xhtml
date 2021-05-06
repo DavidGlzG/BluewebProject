@@ -32,7 +32,7 @@ and open the template in the editor.
 
             <p:layoutUnit position="north" size="100" header="Top" resizable="false">
                 <h:form>
-                    <p:commandButton action="#{usuariosBean.salirSesion()}" value="Salir" style="margin-right:20px;"/>
+                    <p:commandButton action="#{usuariosBean.salirSesion()}" value="Cerrar sesión" icon="ui-icon-power" style="margin-right:20px;"/>
                     <p:outputLabel value="Bienvenido #{inicioBean.nombreUsuario}"/>
 
                 </h:form>
@@ -66,10 +66,6 @@ and open the template in the editor.
                 </h:form>
             </p:dialog>
         </p:idleMonitor>
-
-
-
-
 
     </h:body>
 </html>
