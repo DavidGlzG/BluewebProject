@@ -110,7 +110,7 @@ and open the template in the editor.
 
                 <h:form id="fromCliTbl">
                     <p:commandButton value="Nuevo Registro" onclick="PF('nvoRegDialog').show()" />
-                    <p:panel id="pnlFiltro" style="text-align: center; width: 250%" >
+                    <p:panel id="pnlFiltro" style="text-align: center;" >
                         <p:panelGrid columns="7">
                             <p:commandButton icon="ui-icon-search" action="#{clientesBean.listarClientes()}"
                                              update="dtRegistros, pnlFiltro" />
@@ -132,10 +132,10 @@ and open the template in the editor.
 
                     </p:panel>
 
-                    <p:panel id="pnlTable" style="width: 250%">
+                    <p:panel id="pnlTable">
                         <p:growl id="msgs22" showDetail="true"/>
                         <p:dataTable id="dtRegistros" var="cliente" value="#{clientesBean.listaCliente}" editable="true" rows="5"
-                                     paginator="true" widgetVar="dtRegis" sortMode="single" >
+                                     paginator="true" widgetVar="dtRegis" sortMode="single" reflow="true" >
 
                             <p:ajax event="rowEdit" listener="#{clientesBean.modificarClientes(cliente)}"  />
 

@@ -34,7 +34,7 @@ and open the template in the editor.
                     <p:panel id="pnlDisTbl">
 
                         <p:dataTable id="dtDistribuidores" var="distribuidor" value="#{distribuidoresBean.listaDistribuidorFiltro}" editable="true"
-                                     rows="5" paginator="true" widgetVar="dtDistribuidor" sortMode="single">
+                                     rows="5" paginator="true" widgetVar="dtDistribuidor" sortMode="single" reflow="true" >
                             <p:ajax event="rowEdit" listener="#{distribuidoresBean.modificarDistribuidores(distribuidor)}" 
                                     update="dtDistribuidores"/>
                             <p:ajax event="sort" process="@all" update="dtDistribuidores"/>
