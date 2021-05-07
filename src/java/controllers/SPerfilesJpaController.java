@@ -7,7 +7,6 @@ package controllers;
 
 import controllers.exceptions.IllegalOrphanException;
 import controllers.exceptions.NonexistentEntityException;
-import controllers.exceptions.PreexistingEntityException;
 import entities.SPerfiles;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -37,7 +36,7 @@ public class SPerfilesJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(SPerfiles SPerfiles) throws PreexistingEntityException, Exception {
+    public void create(SPerfiles SPerfiles) {
         if (SPerfiles.getSPerfilesAccesosCollection() == null) {
             SPerfiles.setSPerfilesAccesosCollection(new ArrayList<SPerfilesAccesos>());
         }
@@ -62,11 +61,6 @@ public class SPerfilesJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findSPerfiles(SPerfiles.getIdPerfil()) != null) {
-                throw new PreexistingEntityException("SPerfiles " + SPerfiles + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -207,5 +201,5 @@ public class SPerfilesJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

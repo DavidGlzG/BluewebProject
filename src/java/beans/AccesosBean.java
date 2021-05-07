@@ -11,6 +11,7 @@ import controllers.SAccesosJpaController;
 import controllers.exceptions.IllegalOrphanException;
 import controllers.exceptions.NonexistentEntityException;
 import entities.SAccesos;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.DualListModel;
 
 /**
  *
@@ -30,6 +32,8 @@ public class AccesosBean {
 
     private SAccesos accesos = new SAccesos();
     private List<SAccesos> listaAccesos;
+    private List<SAccesos> listaAccesos2 = new ArrayList<>();
+    private DualListModel<SAccesos> dualListaAccesos;
     private Integer idAcceso;
     private SAccesos modificaAccesos = new SAccesos();
 
@@ -40,6 +44,7 @@ public class AccesosBean {
     public void listarAccesos() {
         SAccesosJpaController modelo = new SAccesosJpaController();
         listaAccesos = modelo.findSAccesosEntities();
+        dualListaAccesos = new DualListModel<>(listaAccesos, listaAccesos2);
     }
 
     public void registrarAccesos() {
@@ -123,4 +128,21 @@ public class AccesosBean {
         this.modificaAccesos = modificaAccesos;
     }
 
+    public List<SAccesos> getListaAccesos2() {
+        return listaAccesos2;
+    }
+
+    public void setListaAccesos2(List<SAccesos> listaAccesos2) {
+        this.listaAccesos2 = listaAccesos2;
+    }
+
+    public DualListModel<SAccesos> getDualListaAccesos() {
+        return dualListaAccesos;
+    }
+
+    public void setDualListaAccesos(DualListModel<SAccesos> dualListaAccesos) {
+        this.dualListaAccesos = dualListaAccesos;
+    }
+
+    
 }
