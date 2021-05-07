@@ -47,6 +47,7 @@ and open the template in the editor.
                             <p:menuitem value="Imagenes" url="/../DavidProject/faces/inicio/imagenes.xhtml"/>
                             <p:menuitem value="Clientes" url="/../DavidProject/faces/catalogo/clientes.xhtml"/>
                             <p:menuitem value="Distribuidores" url="/../DavidProject/faces/catalogo/distribuidores.xhtml"/>
+                            <p:menuitem value="Accesos" url="/../DavidProject/faces/catalogo/accesos.xhtml"/>
                         </p:submenu>
                     </p:menu>
                 </h:form>
@@ -59,7 +60,7 @@ and open the template in the editor.
             </p:layoutUnit>
         </p:layout>
 
-        <p:idleMonitor onidle="PF('idleDialog').show();" timeout="60000" >
+        <p:idleMonitor onidle="PF('idleDialog').show();" timeout="1200000" >
             <p:dialog header="Sesion Expiro" widgetVar="idleDialog" modal="true">
                 <h:form id="dl">
                     <h:outputText value="Se acabó tu tiempo de sesión" />

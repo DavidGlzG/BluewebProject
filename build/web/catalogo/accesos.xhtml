@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+    </h:head>
+
+    <h:body>
+        <ui:composition template="./../inicio/inicio.xhtml">
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="true"/>
+                <h:form id="formTblAcc">
+                    <p:commandButton value="Nuevo Registro" onclick="PF('dlgRegAcc').show()"/>
+                    <p:dataTable id="tblAcc" value="#{accesosBean.listaAccesos}" var="accesos" paginator="true"
+                                 rows="5" reflow="true">
+                        <p:column style="width: 3rem" >
+                            <p:commandButton title="Modificar" action="#{accesosBean.seleccionAcceso(accesos)}" 
+                                             onclick="PF('dlgModAcc').show()" update="tblAcc, formModAcc"
+                                             icon="ui-icon-pencil"/>
+                            <p:commandButton title="Eliminar" action="#{accesosBean.setIdAcceso(accesos.idAcceso)}" 
+                                             onclick="PF('dlgEliAcc').show()" update="tblAcc" icon="ui-icon-trash"/>
+                        </p:column>
+                        <p:column headerText="Nombre Accesos">
+                            <p:outputLabel value="#{accesos.nombreAcceso}"/>
+                        </p:column>
+                        <p:column headerText="Orden">
+                            <p:outputLabel value="#{accesos.orden}"/>
+                        </p:column>
+                        <p:column headerText="Activo">
+                            <p:outputLabel value="#{accesos.activo==true ? 'Activo' : 'Inactivo'}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog widgetVar="dlgEliAcc" header="Eliminar">
+                    <h:form>
+                        <div style="text-align: center">
+                            <p:outputLabel value="¿Eliminar este registro?"/>
+                        </div>
+                        <br/>
+                        <p:commandButton value="Aceptar" action="#{accesosBean.eliminarAccesos()}"
+                                         onclick="PF('dlgEliAcc').hide()" update=":formTblAcc:tblAcc, msgs"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dlgEliAcc').hide()" />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog widgetVar="dlgRegAcc">
+                    <h:form id="formDlgReg">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre Accesos"/>
+                            <p:inputText value="#{accesosBean.accesos.nombreAcceso}"/>
+                            <p:outputLabel value="Orden"/>
+                            <p:inputNumber value="#{accesosBean.accesos.orden}" thousandSeparator="" decimalPlaces="0"/>
+                            <p:commandButton value="Registrar" action="#{accesosBean.registrarAccesos()}" 
+                                             update=":formTblAcc:tblAcc, formDlgReg, msgs" onclick="PF('dlgRegAcc').hide()"/>
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog widgetVar="dlgModAcc">
+                    <h:form id="formModAcc">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Nombre Accesos"/>
+                            <p:inputText value="#{accesosBean.modificaAccesos.nombreAcceso}"/>
+                            <p:outputLabel value="Orden"/>
+                            <p:inputText value="#{accesosBean.modificaAccesos.orden}"/>
+                            <p:commandButton value="Modificar" action="#{accesosBean.modificarAccesos()}"
+                                             onclick="PF('dlgModAcc').hide()" update=":formTblAcc:tblAcc, msgs" />
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
