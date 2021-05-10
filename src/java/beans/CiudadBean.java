@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import modelos.CiudadesModelo;
 import objetos.Ciudades;
+import org.primefaces.model.DualListModel;
 import respuestas.RespuestaCiudades;
 
 /**
@@ -26,10 +27,13 @@ public class CiudadBean implements Serializable {
 
     private Ciudades ciudad;
     private List<Ciudades> listaCiudades = new ArrayList<Ciudades>();
+    private List<Ciudades> listaCiudades2 = new ArrayList<Ciudades>();
+    private DualListModel<Ciudades> dualCiudades;
 
     public CiudadBean() {
 
         listarCiudades();
+        dualCiudades = new DualListModel<Ciudades>(listaCiudades, listaCiudades2);
     }
 
     public void listarCiudades() {
@@ -39,6 +43,8 @@ public class CiudadBean implements Serializable {
             RespuestaCiudades rs = modelo.listarCiudades();
             if (rs.getRespuesta().getIdRespuesta() == 0) {
                 listaCiudades = rs.getListaCiudades();
+                
+                
             } else {
                 System.out.println(rs.getRespuesta().getMsgRespuesta());
             }
@@ -65,4 +71,23 @@ public class CiudadBean implements Serializable {
     }
 
 //</editor-fold>
+
+    public List<Ciudades> getListaCiudades2() {
+        return listaCiudades2;
+    }
+
+    public void setListaCiudades2(List<Ciudades> listaCiudades2) {
+        this.listaCiudades2 = listaCiudades2;
+    }
+
+    public DualListModel<Ciudades> getDualCiudades() {
+        return dualCiudades;
+    }
+
+    public void setDualCiudades(DualListModel<Ciudades> dualCiudades) {
+        this.dualCiudades = dualCiudades;
+    }
+
+    
+    
 }

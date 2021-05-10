@@ -27,12 +27,13 @@ public class PerfilesBean {
 
     public PerfilesBean() {
         listarPerfoles();
+        dualListaPerfiles = new DualListModel<>(listaPerfiles, listaPerfiles2);
     }
     
     public void listarPerfoles(){
         SPerfilesJpaController modelo = new SPerfilesJpaController();
         listaPerfiles = modelo.findSPerfilesEntities();
-        dualListaPerfiles = new DualListModel<>(listaPerfiles, listaPerfiles2);
+        
     }
 
     public SPerfiles getPerfiles() {

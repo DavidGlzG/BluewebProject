@@ -30,8 +30,6 @@ and open the template in the editor.
                         <p:column headerText="Descripción">
                             <p:outputLabel value="#{perfiles.descripcion}"/>
                         </p:column>
-                        <p:pickList value="#{accesosBean.dualListaAccesos}" var="dualAccesos"
-                                    itemLabel="#{dualAccesos}" itemValue="#{dualAccesos}"/>
                     </p:dataTable>
                 </h:form>
                 
@@ -43,6 +41,8 @@ and open the template in the editor.
                             <p:outputLabel value="Descripción"/>
                             <p:inputText/>
                         </p:panelGrid>
+                        <p:pickList value="#{accesosBean.dualListaAccesos}" var="dualAccesos"
+                                    itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.nombreAcceso}"/>
                     </h:form>
                 </p:dialog>
             </ui:define>

@@ -39,12 +39,12 @@ public class AccesosBean {
 
     public AccesosBean() {
         listarAccesos();
+        dualListaAccesos = new DualListModel<>(listaAccesos, listaAccesos2);
     }
 
     public void listarAccesos() {
         SAccesosJpaController modelo = new SAccesosJpaController();
         listaAccesos = modelo.findSAccesosEntities();
-        dualListaAccesos = new DualListModel<>(listaAccesos, listaAccesos2);
     }
 
     public void registrarAccesos() {
