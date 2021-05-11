@@ -17,9 +17,11 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="./../inicio/inicio.xhtml">
             <ui:define name="content">
-                <h:form>
+                <p:growl id="msg" showDetail="true"/>
+                <h:form id="formTblPer">
                     <p:commandButton value="Nuevo Registro" onclick="PF('dlgRegPef').show()"/>
-                    <p:dataTable value="#{perfilesBean.listaPerfiles}" var="perfiles">
+                    <p:dataTable id="tblPer" value="#{perfilesBean.listaPerfiles}" var="perfiles"
+                                 paginator="true" rows="5">
                         <p:column>
                             <p:commandButton value="Modificar"/>
                             <p:commandButton value="Eliminar"/>
@@ -32,17 +34,24 @@ and open the template in the editor.
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                
+
                 <p:dialog widgetVar="dlgRegPef" header="Nuevo Registro">
                     <h:form>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="Nombre Perfil"/>
-                            <p:inputText/>
-                            <p:outputLabel value="Descripción"/>
-                            <p:inputText/>
-                        </p:panelGrid>
-                        <p:pickList value="#{accesosBean.dualListaAccesos}" var="dualAccesos"
-                                    itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.nombreAcceso}"/>
+                        <p:panel id="pnlRegPer">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Nombre Perfil"/>
+                                <p:inputText value="#{perfilesBean.perfiles.nombrePerfil}"/>
+                                <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{perfilesBean.perfiles.descripcion}"/>
+                            </p:panelGrid>
+                            <p:pickList id="plAccesos" value="#{perfilesBean.dualListAccesos}" var="dualAccesos"
+                                        itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.idAcceso}">
+                                <f:facet name="sourceCaption">Accesos Disponibles</f:facet>
+                                <f:facet name="targetCaption">Accesos Asignados</f:facet>
+                            </p:pickList>
+                            <p:commandButton value="Registrar" actionListener="#{perfilesBean.registrarPerfil()}" 
+                                             update=":formTblPer:tblPer, msg, pnlRegPer" onclick="PF('dlgRegPef').hide()"/>
+                        </p:panel>
                     </h:form>
                 </p:dialog>
             </ui:define>

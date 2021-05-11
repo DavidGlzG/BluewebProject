@@ -11,6 +11,9 @@ import controllers.SAccesosJpaController;
 import controllers.exceptions.IllegalOrphanException;
 import controllers.exceptions.NonexistentEntityException;
 import entities.SAccesos;
+import java.io.Serializable;
+import static java.lang.Math.log;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +23,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 /**
@@ -28,18 +33,15 @@ import org.primefaces.model.DualListModel;
  */
 @ManagedBean
 @ViewScoped
-public class AccesosBean {
+public class AccesosBean implements Serializable {
 
     private SAccesos accesos = new SAccesos();
     private List<SAccesos> listaAccesos;
-    private List<SAccesos> listaAccesos2 = new ArrayList<>();
-    private DualListModel<SAccesos> dualListaAccesos;
     private Integer idAcceso;
     private SAccesos modificaAccesos = new SAccesos();
 
     public AccesosBean() {
         listarAccesos();
-        dualListaAccesos = new DualListModel<>(listaAccesos, listaAccesos2);
     }
 
     public void listarAccesos() {
@@ -94,6 +96,7 @@ public class AccesosBean {
         modificaAccesos = seleccionAccesos;
     }
 
+
 //<editor-fold defaultstate="collapsed" desc="Get Set">
     public SAccesos getAccesos() {
         return accesos;
@@ -128,21 +131,4 @@ public class AccesosBean {
         this.modificaAccesos = modificaAccesos;
     }
 
-    public List<SAccesos> getListaAccesos2() {
-        return listaAccesos2;
-    }
-
-    public void setListaAccesos2(List<SAccesos> listaAccesos2) {
-        this.listaAccesos2 = listaAccesos2;
-    }
-
-    public DualListModel<SAccesos> getDualListaAccesos() {
-        return dualListaAccesos;
-    }
-
-    public void setDualListaAccesos(DualListModel<SAccesos> dualListaAccesos) {
-        this.dualListaAccesos = dualListaAccesos;
-    }
-
-    
 }
