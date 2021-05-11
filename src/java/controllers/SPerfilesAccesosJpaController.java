@@ -16,7 +16,10 @@ import entities.SAccesos;
 import entities.SPerfiles;
 import entities.SPerfilesAccesos;
 import entities.SPerfilesAccesosPK;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import utils.LocalEntityManagerFactory;
@@ -34,6 +37,26 @@ public class SPerfilesAccesosJpaController implements Serializable {
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public List<SPerfilesAccesos> traerAccesosByPerfil(SPerfiles perfil) {
+        List<SPerfilesAccesos> listaAccesos = new ArrayList<>();
+        if (perfil != null) {
+
+            //SELECT r FROM RPerfilAcceso r WHERE r.rPerfilAccesoPK.idPerfil = :idPerfil
+            EntityManager em = getEntityManager();
+            Query query = null;
+            try {
+
+                query = em.createNamedQuery("SPerfilesAccesos.findByIdPerfil", SPerfilesAccesos.class).setParameter("idPerfil", perfil.getIdPerfil());
+
+                listaAccesos = query.getResultList();
+
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return listaAccesos;
     }
 
     public void create(SPerfilesAccesos SPerfilesAccesos) throws PreexistingEntityException, Exception {
@@ -208,5 +231,5 @@ public class SPerfilesAccesosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

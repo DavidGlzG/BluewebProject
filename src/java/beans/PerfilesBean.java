@@ -8,9 +8,12 @@ package beans;
 import controllers.SAccesosJpaController;
 import controllers.SPerfilesAccesosJpaController;
 import controllers.SPerfilesJpaController;
+import controllers.exceptions.IllegalOrphanException;
+import controllers.exceptions.NonexistentEntityException;
 import entities.SAccesos;
 import entities.SPerfiles;
 import entities.SPerfilesAccesos;
+import entities.SPerfilesAccesosPK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +36,7 @@ import utils.TraeDatoSesion;
 public class PerfilesBean implements Serializable {
 
     private SPerfiles perfiles = new SPerfiles();
+    private Integer idPerfil;
     private List<SPerfiles> listaPerfiles;
     private List<SAccesos> listaAccesosDisponibles;
     private List<SAccesos> listaAccesosAsignados = new ArrayList<>();
@@ -91,6 +95,30 @@ public class PerfilesBean implements Serializable {
         listaAccesosAsignados = new ArrayList<>();
         dualListAccesos = new DualListModel<>(listaAccesosDisponibles, listaAccesosAsignados);
     }
+    
+    public void eliminarPerfil(SPerfiles perfil){
+        SPerfilesJpaController modeloPerfiles = new SPerfilesJpaController();
+        SPerfilesAccesosJpaController modeloPerfilesAccesos = new SPerfilesAccesosJpaController();
+        List<SPerfilesAccesos> listaPerfilesAccesos = new ArrayList<>();
+        
+        listaPerfilesAccesos = modeloPerfilesAccesos.traerAccesosByPerfil(perfil);
+        try {
+        for(SPerfilesAccesos lista : listaPerfilesAccesos){
+                modeloPerfilesAccesos.destroy(lista.getSPerfilesAccesosPK());
+        }
+            try {
+                modeloPerfiles.destroy(perfil.getIdPerfil());
+                FacesMessage msg = new FacesMessage("Registro eliminado correctamente", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                
+            } catch (IllegalOrphanException ex) {
+                Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (NonexistentEntityException ex) {
+                Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        listarPerfoles();
+    }
 
     public SPerfiles getPerfiles() {
         return perfiles;
@@ -130,6 +158,14 @@ public class PerfilesBean implements Serializable {
 
     public void setDualListAccesos(DualListModel<SAccesos> dualListAccesos) {
         this.dualListAccesos = dualListAccesos;
+    }
+
+    public Integer getIdPerfil() {
+        return idPerfil;
+    }
+
+    public void setIdPerfil(Integer idPerfil) {
+        this.idPerfil = idPerfil;
     }
 
 }

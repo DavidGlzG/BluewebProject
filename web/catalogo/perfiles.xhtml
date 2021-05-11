@@ -22,9 +22,11 @@ and open the template in the editor.
                     <p:commandButton value="Nuevo Registro" onclick="PF('dlgRegPef').show()"/>
                     <p:dataTable id="tblPer" value="#{perfilesBean.listaPerfiles}" var="perfiles"
                                  paginator="true" rows="5">
-                        <p:column>
-                            <p:commandButton value="Modificar"/>
-                            <p:commandButton value="Eliminar"/>
+                        <p:column style="width: 3rem">
+                            <p:commandButton title="Modificar"
+                                             icon="ui-icon-pencil"/>
+                            <p:commandButton title="Eliminar" action="#{perfilesBean.setPerfiles(perfiles)}"
+                                             onclick="PF('dlgEliPer').show()" icon="ui-icon-trash"/>
                         </p:column>
                         <p:column headerText="Nombre Perfil">
                             <p:outputLabel value="#{perfiles.nombrePerfil}"/>
@@ -52,6 +54,18 @@ and open the template in the editor.
                             <p:commandButton value="Registrar" actionListener="#{perfilesBean.registrarPerfil()}" 
                                              update=":formTblPer:tblPer, msg, pnlRegPer" onclick="PF('dlgRegPef').hide()"/>
                         </p:panel>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog widgetVar="dlgEliPer" header="Eliminar Registro">
+                    <h:form>
+                        <div style="text-align: center">
+                            <p:outputLabel value="¿Eliminar este registro?"/>
+                        </div>
+                        <br/>
+                        <p:commandButton value="Aceptar" action="#{perfilesBean.eliminarPerfil(perfilesBean.perfiles)}"
+                                         onclick="PF('dlgEliPer').hide()" update=":formTblPer:tblPer, msg"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dlgEliPer').hide()"/>
                     </h:form>
                 </p:dialog>
             </ui:define>
