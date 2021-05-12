@@ -120,49 +120,50 @@ public class DistribuidoresBean implements Serializable{
     }
     
     public void almacenarId(Distribuidores distribuidor){
-        
         idDistribuidor = distribuidor.getIdDistribuidor();
-        
     }
 
+//<editor-fold defaultstate="collapsed" desc="Get Set">
     public Distribuidores getDistribuidor() {
         return distribuidor;
     }
-
+    
     public void setDistribuidor(Distribuidores distribuidor) {
         this.distribuidor = distribuidor;
     }
-
+    
     public List<Distribuidores> getListaDistribuidor() {
         return listaDistribuidor;
     }
-
+    
     public void setListaDistribuidor(List<Distribuidores> listaDistribuidor) {
         this.listaDistribuidor = listaDistribuidor;
     }
-
+    
     public static int getIdDistribuidor() {
         return idDistribuidor;
     }
-
+    
     public static void setIdDistribuidor(int idDistribuidor) {
         DistribuidoresBean.idDistribuidor = idDistribuidor;
     }
-
+    
     public List<Distribuidores> getListaDistribuidorFiltro() {
         return listaDistribuidorFiltro;
     }
-
+    
     public void setListaDistribuidorFiltro(List<Distribuidores> listaDistribuidorFiltro) {
         this.listaDistribuidorFiltro = listaDistribuidorFiltro;
     }
-
+    
     public Distribuidores getDistribuidorRegistrar() {
         return distribuidorRegistrar;
     }
-
+    
     public void setDistribuidorRegistrar(Distribuidores distribuidorRegistrar) {
         this.distribuidorRegistrar = distribuidorRegistrar;
     }
+    
+//</editor-fold>
     
 }

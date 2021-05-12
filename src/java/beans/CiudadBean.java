@@ -27,24 +27,23 @@ public class CiudadBean implements Serializable {
 
     private Ciudades ciudad;
     private List<Ciudades> listaCiudades = new ArrayList<Ciudades>();
-    private List<Ciudades> listaCiudades2 = new ArrayList<Ciudades>();
-    private DualListModel<Ciudades> dualCiudades;
 
+    /**
+     * Metodo constructor donde se inicia la lista de las ciudades.
+     */
     public CiudadBean() {
-
         listarCiudades();
-        dualCiudades = new DualListModel<Ciudades>(listaCiudades, listaCiudades2);
     }
 
+    /**
+     * Metodo para traer todas las ciudades de la base de datos y almacenarlos en un lista.
+     */
     public void listarCiudades() {
-
         try {
             CiudadesModelo modelo = new CiudadesModelo();
             RespuestaCiudades rs = modelo.listarCiudades();
             if (rs.getRespuesta().getIdRespuesta() == 0) {
                 listaCiudades = rs.getListaCiudades();
-                
-                
             } else {
                 System.out.println(rs.getRespuesta().getMsgRespuesta());
             }
@@ -71,23 +70,5 @@ public class CiudadBean implements Serializable {
     }
 
 //</editor-fold>
-
-    public List<Ciudades> getListaCiudades2() {
-        return listaCiudades2;
-    }
-
-    public void setListaCiudades2(List<Ciudades> listaCiudades2) {
-        this.listaCiudades2 = listaCiudades2;
-    }
-
-    public DualListModel<Ciudades> getDualCiudades() {
-        return dualCiudades;
-    }
-
-    public void setDualCiudades(DualListModel<Ciudades> dualCiudades) {
-        this.dualCiudades = dualCiudades;
-    }
-
-    
-    
+   
 }

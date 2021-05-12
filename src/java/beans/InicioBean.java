@@ -19,51 +19,23 @@ import utils.TraeDatoSesion;
 public class InicioBean implements Serializable {
 
     private String nombreUsuario;
-    private static int indice;
 
+    /**
+     * Metodo constructor donde se asigna el valor del nombre del usuario almacenado en las
+     * variables de sesión.
+     */
     public InicioBean() {
         nombreUsuario = TraeDatoSesion.traerNombreUsuario();
-        enlaceCatalogos();
     }
 
-    public void almacenarIndice(int indice){
-        this.indice = indice;
-    }
-    
-    public String enlaceCatalogos() {
-        
-        String ruta;
-        switch(indice){
-            case 1:
-                ruta = "/inicio/imagenes.xhtml";
-                break;
-            case 2:
-                ruta = "/catalogo/clientes.xhtml";
-                break;
-            case 3:
-                ruta = "/catalogo/distribuidor.xhtml";
-                break;
-            default:
-                ruta = "/inicio/prueba.xhtml";
-                        
-        }
-        return ruta;
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Get Set">
     public String getNombreUsuario() {
         return nombreUsuario;
     }
-
+    
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-    public static int getIndice() {
-        return indice;
-    }
-
-    public static void setIndice(int indice) {
-        InicioBean.indice = indice;
-    }
+//</editor-fold>
 
 }

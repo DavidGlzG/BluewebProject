@@ -42,22 +42,35 @@ public class PerfilesBean implements Serializable {
     private List<SAccesos> listaAccesosAsignados = new ArrayList<>();
     private DualListModel<SAccesos> dualListAccesos;
 
+    /**
+     * Metodo constructor donde se inicia la lista de perfiles y accesos además 
+     * de inicializar la dualListAccesos.
+     */
     public PerfilesBean() {
-        listarPerfoles();
+        listarPerfiles();
         listarAccesos();
         dualListAccesos = new DualListModel<>(listaAccesosDisponibles, listaAccesosAsignados);
     }
 
-    public void listarPerfoles() {
+    /**
+     * Metodo para traer todos los perfiles de la base de datos y alamcenarlos en una lista.
+     */
+    public void listarPerfiles() {
         SPerfilesJpaController modelo = new SPerfilesJpaController();
         listaPerfiles = modelo.findSPerfilesEntities();
     }
 
+    /**
+     * Metodo para traer todos los accesos de la base de datos y alamcenarlos en una lista.
+     */
     public void listarAccesos() {
         SAccesosJpaController modelo = new SAccesosJpaController();
         listaAccesosDisponibles = modelo.findSAccesosEntities();
     }
 
+    /**
+     * Metodo para registar un perfil nuevo y también registrar sus accesos asigandos.
+     */
     public void registrarPerfil() {
         List<SAccesos> listaIdAccesosString = new ArrayList<>();
         SPerfilesAccesos perfilesAccesos = new SPerfilesAccesos();
@@ -90,12 +103,16 @@ public class PerfilesBean implements Serializable {
             Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         perfiles = new SPerfiles();
-        listarPerfoles();
+        listarPerfiles();
         listarAccesos();
         listaAccesosAsignados = new ArrayList<>();
         dualListAccesos = new DualListModel<>(listaAccesosDisponibles, listaAccesosAsignados);
     }
 
+    /**
+     * Metodo para eliminar un perfil y sus accesos asignados.
+     * @param perfil Es el perfil de donde se obtiene el id a eliminar.
+     */
     public void eliminarPerfil(SPerfiles perfil) {
         SPerfilesJpaController modeloPerfiles = new SPerfilesJpaController();
         SPerfilesAccesosJpaController modeloPerfilesAccesos = new SPerfilesAccesosJpaController();
@@ -117,9 +134,12 @@ public class PerfilesBean implements Serializable {
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        listarPerfoles();
+        listarPerfiles();
     }
 
+    /**
+     * Metodo para modificar un perfil y reasignarle los accesos seleccionados.
+     */
     public void modificarPerfil() {
         List<SAccesos> listaIdAccesosAsignadosString = new ArrayList<>();
         SPerfilesAccesos perfilesAccesos = new SPerfilesAccesos();
@@ -163,9 +183,14 @@ public class PerfilesBean implements Serializable {
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        listarPerfoles();
+        listarPerfiles();
     }
 
+    /**
+     * Metodo para traer todos los accesos disponibles y asignados de un perfil para luego inicializar 
+     * una dualList con esos valores.
+     * @param perfil Es el perfil de donde se obtiene el id para obtener los accesos disponibles y asignados. 
+     */
     public void traerAccesosPerfil(SPerfiles perfil) {
         perfiles = perfil;
         dualListAccesos = new DualListModel<>();
@@ -179,52 +204,54 @@ public class PerfilesBean implements Serializable {
 
     }
 
+//<editor-fold defaultstate="collapsed" desc="Get Set">
     public SPerfiles getPerfiles() {
         return perfiles;
     }
-
+    
     public void setPerfiles(SPerfiles perfiles) {
         this.perfiles = perfiles;
     }
-
+    
     public List<SPerfiles> getListaPerfiles() {
         return listaPerfiles;
     }
-
+    
     public void setListaPerfiles(List<SPerfiles> listaPerfiles) {
         this.listaPerfiles = listaPerfiles;
     }
-
+    
     public List<SAccesos> getListaAccesosDisponibles() {
         return listaAccesosDisponibles;
     }
-
+    
     public void setListaAccesosDisponibles(List<SAccesos> listaAccesosDisponibles) {
         this.listaAccesosDisponibles = listaAccesosDisponibles;
     }
-
+    
     public List<SAccesos> getListaAccesosAsignados() {
         return listaAccesosAsignados;
     }
-
+    
     public void setListaAccesosAsignados(List<SAccesos> listaAccesosAsignados) {
         this.listaAccesosAsignados = listaAccesosAsignados;
     }
-
+    
     public DualListModel<SAccesos> getDualListAccesos() {
         return dualListAccesos;
     }
-
+    
     public void setDualListAccesos(DualListModel<SAccesos> dualListAccesos) {
         this.dualListAccesos = dualListAccesos;
     }
-
+    
     public Integer getIdPerfil() {
         return idPerfil;
     }
-
+    
     public void setIdPerfil(Integer idPerfil) {
         this.idPerfil = idPerfil;
     }
+//</editor-fold>
 
 }

@@ -137,39 +137,37 @@ public class ClientesBean implements Serializable {
         idCliente = cliente.getIdCliente();
     }
 
-    //<editor-fold defaultstate="collapsed" desc="getset">
+//<editor-fold defaultstate="collapsed" desc="Get Set">
     public Clientes getCliente() {
         return cliente;
     }
-
+    
     public void setCliente(Clientes cliente) {
         this.cliente = cliente;
     }
-
+    
     public List<Clientes> getListaCliente() {
         return listaCliente;
     }
-
+    
     public void setListaCliente(List<Clientes> listaCliente) {
         this.listaCliente = listaCliente;
     }
-
+    
     public int getIdCliente() {
         return idCliente;
     }
-
+    
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-
     
-//</editor-fold>
-
     public Clientes getClienteRegistro() {
         return clienteRegistro;
     }
-
+    
     public void setClienteRegistro(Clientes clienteRegistro) {
         this.clienteRegistro = clienteRegistro;
     }
+//</editor-fold>
 }

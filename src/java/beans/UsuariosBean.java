@@ -34,6 +34,10 @@ public class UsuariosBean implements Serializable{
     private Usuarios usuario = new Usuarios();
     private List<Usuarios> listaUsuarios;
 
+    /**
+     * Valida el usuario en el login. En caso de ser correcto almacena los datos del usuario en
+     * variables de sesion, de lo contrario muestra mensaje de error.
+     */
     public void validarUsuario() {
 
         try {
@@ -61,6 +65,10 @@ public class UsuariosBean implements Serializable{
         }
     }
 
+    /**
+     * Verifica que una sesion se encuentre activa. Si el usuario es igual a 
+     * nullo entonces redirige a una pagina de acceso invalido.
+     */
     public void verificarSesion() {
         try {
             usuario = TraeDatoSesion.traerUsuarioObjeto();
@@ -73,6 +81,9 @@ public class UsuariosBean implements Serializable{
         }
     }
 
+    /**
+     * Metodo para invalidar las variables de sesion y redirige a la pagina donde esta el login
+     */
     public void salirSesion() {
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         String ctxPath = ((ServletContext) ctx.getContext()).getContextPath();
@@ -84,20 +95,22 @@ public class UsuariosBean implements Serializable{
         }
     }
 
+//<editor-fold defaultstate="collapsed" desc="Get Set">
     public Usuarios getUsuario() {
         return usuario;
     }
-
+    
     public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
     }
-
+    
     public List<Usuarios> getListaUsuarios() {
         return listaUsuarios;
     }
-
+    
     public void setListaUsuarios(List<Usuarios> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
+//</editor-fold>
 
 }
