@@ -13,15 +13,21 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entities.SAccesos;
+import entities.SAccesos_;
 import entities.SPerfiles;
 import entities.SPerfilesAccesos;
 import entities.SPerfilesAccesosPK;
+import entities.SPerfilesAccesos_;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CollectionJoin;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.JoinType;
 import utils.LocalEntityManagerFactory;
 
 /**
@@ -57,6 +63,53 @@ public class SPerfilesAccesosJpaController implements Serializable {
             }
         }
         return listaAccesos;
+    }
+
+    public List<SAccesos> traerAccesosAsignados(SPerfiles idPerfil) {
+        List<SAccesos> lista = new ArrayList<>();
+        EntityManager em = getEntityManager();
+        try {
+            em = getEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<SAccesos> query = cb.createQuery(SAccesos.class);
+            Root<SAccesos> perfil = query.from(SAccesos.class);
+            CollectionJoin<SAccesos, SPerfilesAccesos> usuarioPerfil = perfil.join(SAccesos_.sPerfilesAccesosCollection);
+            query.select(perfil).where(cb.equal(usuarioPerfil.get(SPerfilesAccesos_.sPerfiles), idPerfil));
+            TypedQuery<SAccesos> typedQuery = em.createQuery(query);
+
+            lista = typedQuery.getResultList();
+        } catch (Exception ex) {
+
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return lista;
+    }
+
+    public List<SAccesos> traerAccesosDisponibles(SPerfiles idPerfil) {
+        List<SAccesos> lista = new ArrayList<>();
+        EntityManager em = getEntityManager();
+        try {
+            em = getEntityManager();
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<SAccesos> query = cb.createQuery(SAccesos.class);
+            Root<SAccesos> perfil = query.from(SAccesos.class);
+            CollectionJoin<SAccesos, SPerfilesAccesos> usuarioPerfil = perfil.join(SAccesos_.sPerfilesAccesosCollection, JoinType.LEFT);
+            usuarioPerfil.on(cb.equal(usuarioPerfil.get(SPerfilesAccesos_.sPerfiles), idPerfil));
+            query.select(perfil).where(cb.isNull(usuarioPerfil.get(SPerfilesAccesos_.sPerfiles)));
+            TypedQuery<SAccesos> typedQuery = em.createQuery(query);
+
+            lista = typedQuery.getResultList();
+        } catch (Exception ex) {
+
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return lista;
     }
 
     public void create(SPerfilesAccesos SPerfilesAccesos) throws PreexistingEntityException, Exception {

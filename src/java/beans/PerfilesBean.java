@@ -95,29 +95,88 @@ public class PerfilesBean implements Serializable {
         listaAccesosAsignados = new ArrayList<>();
         dualListAccesos = new DualListModel<>(listaAccesosDisponibles, listaAccesosAsignados);
     }
-    
-    public void eliminarPerfil(SPerfiles perfil){
+
+    public void eliminarPerfil(SPerfiles perfil) {
         SPerfilesJpaController modeloPerfiles = new SPerfilesJpaController();
         SPerfilesAccesosJpaController modeloPerfilesAccesos = new SPerfilesAccesosJpaController();
         List<SPerfilesAccesos> listaPerfilesAccesos = new ArrayList<>();
-        
+
         listaPerfilesAccesos = modeloPerfilesAccesos.traerAccesosByPerfil(perfil);
         try {
-        for(SPerfilesAccesos lista : listaPerfilesAccesos){
+            for (SPerfilesAccesos lista : listaPerfilesAccesos) {
                 modeloPerfilesAccesos.destroy(lista.getSPerfilesAccesosPK());
-        }
+            }
             try {
                 modeloPerfiles.destroy(perfil.getIdPerfil());
                 FacesMessage msg = new FacesMessage("Registro eliminado correctamente", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                
+
             } catch (IllegalOrphanException ex) {
                 Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NonexistentEntityException ex) {
+            Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        listarPerfoles();
+    }
+
+    public void modificarPerfil() {
+        List<SAccesos> listaIdAccesosAsignadosString = new ArrayList<>();
+        SPerfilesAccesos perfilesAccesos = new SPerfilesAccesos();
+        List<SPerfilesAccesos> listaPerfilesAccesos = new ArrayList<>();
+
+        SPerfilesJpaController modeloPerfiles = new SPerfilesJpaController();
+        SPerfilesAccesosJpaController modeloPerfilesAccesos = new SPerfilesAccesosJpaController();
+
+        perfiles.setIdUsuarioModifica(TraeDatoSesion.traerIdUsuario());
+
+        listaIdAccesosAsignadosString = dualListAccesos.getTarget();
+
+        SAccesos objAccesos = new SAccesos();
+
+        listaPerfilesAccesos = modeloPerfilesAccesos.traerAccesosByPerfil(perfiles);
+        try {
+            for (SPerfilesAccesos lista : listaPerfilesAccesos) {
+                modeloPerfilesAccesos.destroy(lista.getSPerfilesAccesosPK());
+            }
+            for (Object listaId : listaIdAccesosAsignadosString) {
+
+                int id = Integer.parseInt(listaId.toString());
+                objAccesos.setIdAcceso(id);
+                perfilesAccesos.setSPerfiles(perfiles);
+                perfilesAccesos.setSAccesos(objAccesos);
+                perfilesAccesos.setFechaServidor(new Date());
+                perfilesAccesos.setIdUsuarioModifica(TraeDatoSesion.traerIdUsuario());
+                try {
+                    modeloPerfilesAccesos.create(perfilesAccesos);
+                } catch (Exception ex) {
+                    Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            try {
+                modeloPerfiles.edit(perfiles);
+                FacesMessage msg = new FacesMessage("Registro modificado correctamente", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } catch (Exception ex) {
                 Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(PerfilesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         listarPerfoles();
+    }
+
+    public void traerAccesosPerfil(SPerfiles perfil) {
+        perfiles = perfil;
+        dualListAccesos = new DualListModel<>();
+        listaAccesosDisponibles = new ArrayList<>();
+        listaAccesosAsignados = new ArrayList<>();
+        SPerfilesAccesosJpaController modelo = new SPerfilesAccesosJpaController();
+
+        listaAccesosDisponibles = modelo.traerAccesosDisponibles(perfil);
+        listaAccesosAsignados = modelo.traerAccesosAsignados(perfil);
+        dualListAccesos = new DualListModel<>(listaAccesosDisponibles, listaAccesosAsignados);
+
     }
 
     public SPerfiles getPerfiles() {

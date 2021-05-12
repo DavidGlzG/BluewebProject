@@ -23,8 +23,9 @@ and open the template in the editor.
                     <p:dataTable id="tblPer" value="#{perfilesBean.listaPerfiles}" var="perfiles"
                                  paginator="true" rows="5">
                         <p:column style="width: 3rem">
-                            <p:commandButton title="Modificar"
-                                             icon="ui-icon-pencil"/>
+                            <p:commandButton title="Modificar" action="#{perfilesBean.traerAccesosPerfil(perfiles)}"
+                                             onclick="PF('dlgModPer').show()" icon="ui-icon-pencil"
+                                             update="formModPef"/>
                             <p:commandButton title="Eliminar" action="#{perfilesBean.setPerfiles(perfiles)}"
                                              onclick="PF('dlgEliPer').show()" icon="ui-icon-trash"/>
                         </p:column>
@@ -68,6 +69,27 @@ and open the template in the editor.
                         <p:commandButton value="Cancelar" onclick="PF('dlgEliPer').hide()"/>
                     </h:form>
                 </p:dialog>
+                
+                <p:dialog widgetVar="dlgModPer" header="Modificar Registro">
+                    <h:form id="formModPef">
+                        <p:panel>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Nombre Perfil"/>
+                                <p:inputText value="#{perfilesBean.perfiles.nombrePerfil}"/>
+                                <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{perfilesBean.perfiles.descripcion}"/>
+                            </p:panelGrid>
+                             <p:pickList id="plAccesos" value="#{perfilesBean.dualListAccesos}" var="dualAccesos"
+                                        itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.idAcceso}">
+                                <f:facet name="sourceCaption">Accesos Disponibles</f:facet>
+                                <f:facet name="targetCaption">Accesos Asignados</f:facet>
+                            </p:pickList>
+                            <p:commandButton value="Modificar" action="#{perfilesBean.modificarPerfil()}"
+                                             onclick="PF('dlgModPer').hide()" update=":formTblPer:tblPer, msg"/>
+                        </p:panel>
+                    </h:form>
+                </p:dialog>
+                
             </ui:define>
         </ui:composition>
     </h:body>
