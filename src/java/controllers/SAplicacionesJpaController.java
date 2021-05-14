@@ -9,13 +9,19 @@ import controllers.exceptions.NonexistentEntityException;
 import controllers.exceptions.PreexistingEntityException;
 import entities.SAplicaciones;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import utils.LocalEntityManagerFactory;
 
 /**
  *
@@ -23,13 +29,55 @@ import javax.persistence.criteria.Root;
  */
 public class SAplicacionesJpaController implements Serializable {
 
-    public SAplicacionesJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public SAplicacionesJpaController() {
+        this.emf = LocalEntityManagerFactory.getEntityManagerFactory();
     }
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    /**
+     * Función que trae datos de un stored procedure para generar la lista
+     * de elementos para un menú dinámico 
+     * @param usuario Es el usuario del cual obtenemos su lista de elementos 
+     * que despliega su menú.
+     * @return Regresa una lista tipo SAplicaciones donde se almacenaron
+     * que despliega su menú.
+     */
+    public List<SAplicaciones> traerListaAplicaciones(String usuario) {
+        List<SAplicaciones> listaAplicaciones = new ArrayList<>();
+        SAplicaciones aplicaciones = new SAplicaciones();
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+
+            StoredProcedureQuery storedProcedure = em.createStoredProcedureQuery("stp_CargaMenu");
+            storedProcedure.registerStoredProcedureParameter("usuario", String.class, ParameterMode.IN);
+            storedProcedure.setParameter("usuario", usuario);
+            storedProcedure.execute();
+
+            List<Object[]> listaResultados = storedProcedure.getResultList();
+
+            for (Object[] obj : listaResultados) {
+                aplicaciones.setIdAplicacion(Integer.parseInt(obj[0].toString()));
+                aplicaciones.setNombreAplicacion((obj[1].toString()));
+                aplicaciones.setIcono(obj[2].toString());
+                aplicaciones.setUrl(obj[3].toString());
+                listaAplicaciones.add(aplicaciones);
+                aplicaciones = new SAplicaciones();
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(SAplicacionesJpaController.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return listaAplicaciones;
     }
 
     public void create(SAplicaciones SAplicaciones) throws PreexistingEntityException, Exception {
@@ -140,5 +188,5 @@ public class SAplicacionesJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

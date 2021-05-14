@@ -38,7 +38,7 @@ public class UsuariosModelo {
         
         try {
             con = PoolDB.getConnection("ACTIVACION");
-            PreparedStatement ps = con.prepareStatement("SELECT ID_USUARIO, USUARIO, NOMBRE_USUARIO, PASSWORD, ULTIMA_SESION"
+            PreparedStatement ps = con.prepareStatement("SELECT ID_USUARIO, ID_PERFIL, USUARIO, NOMBRE_USUARIO, PASSWORD, ULTIMA_SESION"
                     + " FROM S_USUARIOS WHERE USUARIO = ? AND PASSWORD = ?");
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, password);
@@ -48,6 +48,7 @@ public class UsuariosModelo {
                 hayRegistro = true;
                 obj = new Usuarios();
                 obj.setIdUsuario(rsBuscar.getInt("ID_USUARIO"));
+                obj.setIdPerfil(rsBuscar.getInt("ID_PERFIL"));
                 obj.setUsuario(rsBuscar.getString("USUARIO"));
                 obj.setNombreUsuarios(rsBuscar.getString("NOMBRE_USUARIO"));
                 obj.setUltimaSesion(rsBuscar.getString("ULTIMA_SESION"));

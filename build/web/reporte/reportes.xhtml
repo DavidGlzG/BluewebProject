@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../inicio/inicio.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <p:panel header="Generar Reporte">
+                        <p:panelGrid columns="2" >
+                            <p:outputLabel value="Id Usuario "/>
+                            <p:inputNumber value="#{reportesBean.idUsuario}" thousandSeparator="" decimalPlaces="0"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Buscar" action="#{reportesBean.listarReportesCClientes()}" update="TblRepCCl"/>
+                    </p:panel>
+
+                    <p:panel>
+                        <p:dataTable id="TblRepCCl" value="#{reportesBean.listaResportesCClientes}" var="reportesCClientes">
+                            <p:column headerText="Numero Cliente">
+                                <p:outputLabel value="#{reportesCClientes.numCliente}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Cliente">
+                                <p:outputLabel value="#{reportesCClientes.nombreCliente}"/>
+                            </p:column>
+                            <p:column headerText="Teléfono Contacto">
+                                <p:outputLabel value="#{reportesCClientes.telContacto}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Distribuidor">
+                                <p:outputLabel value="#{reportesCClientes.nombreDistribuidor}"/>
+                            </p:column>
+                            <p:column headerText="Descripción Ciudad">
+                                <p:outputLabel value="#{reportesCClientes.descripcionCiudad}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

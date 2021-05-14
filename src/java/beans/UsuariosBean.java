@@ -48,6 +48,7 @@ public class UsuariosBean implements Serializable{
                 usuario = rs.getUsuario();
 
                 context.getExternalContext().getSessionMap().put("idUsuario", usuario.getIdUsuario());
+                context.getExternalContext().getSessionMap().put("idPerfil", usuario.getIdPerfil());
                 context.getExternalContext().getSessionMap().put("usuario", usuario.getUsuario());
                 context.getExternalContext().getSessionMap().put("nombreUsuario", usuario.getNombreUsuarios());
                 context.getExternalContext().getSessionMap().put("UsuarioObjeto", usuario);

@@ -21,6 +21,12 @@ public class TraeDatoSesion {
         usuario = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUsuario");
         return usuario;
     }
+    
+    public static int traerIdUsuarioPerfil() {
+        int usuario = 0;
+        usuario = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idPerfil");
+        return usuario;
+    }
 
     public static String traerUsuario() {
         String usuario = "";

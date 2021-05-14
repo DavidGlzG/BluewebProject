@@ -44,14 +44,11 @@ and open the template in the editor.
                 <h:form>
                     <p:menu>
                         <p:submenu>
-                            <p:menuitem value="Imagenes" url="/../DavidProject/faces/inicio/imagenes.xhtml"/>
-                            <p:menuitem value="Clientes" url="/../DavidProject/faces/catalogo/clientes.xhtml"/>
-                            <p:menuitem value="Distribuidores" url="/../DavidProject/faces/catalogo/distribuidores.xhtml"/>
                             <p:menuitem value="Accesos" url="/../DavidProject/faces/catalogo/accesos.xhtml"/>
-                            <p:menuitem value="Perfiles" url="/../DavidProject/faces/catalogo/perfiles.xhtml"/>
                         </p:submenu>
                     </p:menu>
                 </h:form>
+                <ui:include src="/inicio/menu.xhtml"/>
             </p:layoutUnit>
 
             <p:layoutUnit position="center">

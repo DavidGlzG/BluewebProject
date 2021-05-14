@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+    </h:head>
+
+    <h:body>
+        <ui:composition template="./../inicio/inicio.xhtml">
+            <ui:define name="content">
+                <p:growl id="msg" showDetail="true"/>
+                <h:form id="formTblPer">
+                    <p:commandButton value="Nuevo Registro" onclick="PF('dlgRegPef').show()"/>
+                    <p:dataTable id="tblPer" value="#{perfilesBean.listaPerfiles}" var="perfiles"
+                                 paginator="true" rows="5">
+                        <p:column style="width: 3rem">
+                            <p:commandButton title="Modificar" action="#{perfilesBean.traerAccesosPerfil(perfiles)}"
+                                             onclick="PF('dlgModPer').show()" icon="ui-icon-pencil"
+                                             update="formModPef"/>
+                            <p:commandButton title="Eliminar" action="#{perfilesBean.setPerfiles(perfiles)}"
+                                             onclick="PF('dlgEliPer').show()" icon="ui-icon-trash"/>
+                        </p:column>
+                        <p:column headerText="Nombre Perfil">
+                            <p:outputLabel value="#{perfiles.nombrePerfil}"/>
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <p:outputLabel value="#{perfiles.descripcion}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog widgetVar="dlgRegPef" header="Nuevo Registro">
+                    <h:form>
+                        <p:panel id="pnlRegPer">
+                            <p:panelGrid columns="2" id="pnlGdRegPer">
+                                <p:outputLabel value="Nombre Perfil"/>
+                                <p:inputText value="#{perfilesBean.perfiles.nombrePerfil}" required="true" 
+                                             requiredMessage="Se requiere Nombre" maxlength="30"/>
+                                <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{perfilesBean.perfiles.descripcion}" required="true" 
+                                             requiredMessage="Se requiere Descripción" maxlength="100"/>
+                            </p:panelGrid>
+                            <p:pickList id="plAccesos" value="#{perfilesBean.dualListAccesos}" var="dualAccesos"
+                                        itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.idAcceso}">
+                                <f:facet name="sourceCaption">Accesos Disponibles</f:facet>
+                                <f:facet name="targetCaption">Accesos Asignados</f:facet>
+                            </p:pickList>
+                            <p:commandButton value="Registrar" actionListener="#{perfilesBean.registrarPerfil()}" 
+                                             update=":formTblPer:tblPer, msg, pnlGdRegPer"/>
+                            <p:commandButton value="Cerrar" onclick="PF('dlgRegPef').hide()"/>
+                        </p:panel>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog widgetVar="dlgEliPer" header="Eliminar Registro">
+                    <h:form>
+                        <div style="text-align: center">
+                            <p:outputLabel value="¿Eliminar este registro?"/>
+                        </div>
+                        <br/>
+                        <p:commandButton value="Aceptar" action="#{perfilesBean.eliminarPerfil(perfilesBean.perfiles)}"
+                                         onclick="PF('dlgEliPer').hide()" update=":formTblPer:tblPer, msg"
+                                         immediate="true"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dlgEliPer').hide()"/>
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog widgetVar="dlgModPer" header="Modificar Registro">
+                    <h:form id="formModPef">
+                        <p:panel>
+                            <p:panelGrid columns="2" id="pnlGdModPer">
+                                <p:outputLabel value="Nombre Perfil"/>
+                                <p:inputText value="#{perfilesBean.perfiles.nombrePerfil}" required="true" 
+                                             requiredMessage="Se requiere Nombre" maxlength="30"/>
+                                <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{perfilesBean.perfiles.descripcion}" required="true" 
+                                             requiredMessage="Se requiere Descripción" maxlength="100"/>
+                            </p:panelGrid>
+                             <p:pickList id="plAccesos" value="#{perfilesBean.dualListAccesos}" var="dualAccesos"
+                                        itemLabel="#{dualAccesos.nombreAcceso}" itemValue="#{dualAccesos.idAcceso}">
+                                <f:facet name="sourceCaption">Accesos Disponibles</f:facet>
+                                <f:facet name="targetCaption">Accesos Asignados</f:facet>
+                            </p:pickList>
+                            <p:commandButton value="Modificar" action="#{perfilesBean.modificarPerfil()}"
+                                             update=":formTblPer:tblPer, msg, pnlGdModPer"/>
+                            <p:commandButton value="Cerrar" onclick="PF('dlgModPer').hide()"/>
+                        </p:panel>
+                    </h:form>
+                </p:dialog>
+                
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

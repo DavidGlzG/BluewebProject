@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class Usuarios implements Serializable{
     private int idUsuario;
+    private int idPerfil;
     private String usuario;
     private String nombreUsuarios;
     private String password;
@@ -58,6 +59,14 @@ public class Usuarios implements Serializable{
 
     public void setUltimaSesion(String ultimaSesion) {
         this.ultimaSesion = ultimaSesion;
+    }
+
+    public int getIdPerfil() {
+        return idPerfil;
+    }
+
+    public void setIdPerfil(int idPerfil) {
+        this.idPerfil = idPerfil;
     }
     
 }
