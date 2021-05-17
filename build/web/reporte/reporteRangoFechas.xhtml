@@ -46,10 +46,10 @@
                                 <p:outputLabel value="#{activaciones.telefono}"/>
                             </p:column>
                             <p:column headerText="Fecha Petición">
-                                <p:outputLabel value="#{activaciones.fechaPeticion}"/>
+                                <p:calendar disabled="true" pattern="dd/MM/yyyy" value="#{activaciones.fechaPeticion}"/>
                             </p:column>
                             <p:column headerText="Fecha Respuesta">
-                                <p:outputLabel value="#{activaciones.fechaRespuesta}"/>
+                                <p:calendar disabled="true" pattern="dd/MM/yyyy" value="#{activaciones.fechaRespuesta}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
