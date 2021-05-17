@@ -5,6 +5,8 @@
     <class>entities.SPerfilesAccesos</class>
     <class>entities.SPerfiles</class>
     <class>entities.SAccesos</class>
+    <class>entities.HActivacion</class>
+    <class>entities.CCiudad</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <properties>

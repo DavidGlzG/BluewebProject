@@ -29,6 +29,14 @@ public class ReportesController implements Serializable {
         return emf.createEntityManager();
     }
 
+    /**
+     *Funcion que genera una lista de datos tipo ReportesCliente en base a un idUsuario
+     *  que se manda a un stored procedure.
+     * @param idUsuario Es el id del usuario que se manda de parametro en el stored
+     * procedure
+     * @return Se regresa una lista tipo reportesCClientes con los datos de numCliente, nombreCliente,
+     * telContacto, nombreDistribuidor y descripcionCiudad.
+     */
     public List<ReportesCClientes> traerListaReportesCClientes(int idUsuario) {
         List<ReportesCClientes> listaReportesCClientes = new ArrayList<>();
         ReportesCClientes reportesCClientes = new ReportesCClientes();
