@@ -12,13 +12,18 @@
                 <h:form>
                     <p:growl id="msg" showDetail="true"/>
                     <p:panel header="Generar Reporte">
-                        <p:panelGrid columns="4">
-                            <p:outputLabel value="Fecha Inicial"/>
-                            <p:datePicker value="#{reportesBean.fechaInicio}"/>
-                            <p:outputLabel value="Fecha final"/>
-                            <p:datePicker value="#{reportesBean.fechaFinal}"/>
+                        <p:panelGrid id="pnlGgFecha" columns="4">
+                            <p:outputLabel for="fechaInicial" value="Fecha Inicial"/>
+                            <p:calendar id="fechaInicial" value="#{reportesBean.fechaInicio}" 
+                                        required="true" requiredMessage="Se requiere Fecha Inicial" maxlength="20"/>
+                            <p:outputLabel for="fechaFinal" value="Fecha Final"/>
+                            <p:calendar id="fechaFinal" value="#{reportesBean.fechaFinal}"
+                                        required="true" requiredMessage="Se requiere Fecha Final" maxlength="20"/>
                         </p:panelGrid>
-                        <p:commandButton value="Listar" action="#{reportesBean.rangoFechas()}" update="dtbRep, msg"/>
+                        <p:message for="fechaInicial"/>
+                        <p:message for="fechaFinal"/>
+                        <p:commandButton value="Listar" action="#{reportesBean.rangoFechas()}" 
+                                         update="dtbRep, msg, pnlGgFecha"/>
                     </p:panel>
 
                     <p:panel>

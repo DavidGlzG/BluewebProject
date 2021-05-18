@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -30,7 +31,8 @@ public class ReportesBean implements Serializable {
     private Date fechaFinal;
 
     /**
-     * Metodo que lista todos los datos de un reporte de cliente toamdo como valor un id de usuario.
+     * Metodo que lista todos los datos de un reporte de cliente toamdo como
+     * valor un id de usuario.
      */
     public void listarReportesCClientes() {
         ReportesController modelo = new ReportesController();
@@ -42,23 +44,24 @@ public class ReportesBean implements Serializable {
     }
 
     /**
-     * Metodo que lista todos los datos de un reporte de activaciones tomando cono valores
-     * un rango de fechas.
+     * Metodo que lista todos los datos de un reporte de activaciones tomando
+     * cono valores un rango de fechas.
      */
     public void rangoFechas() {
         HActivacionJpaController modelo = new HActivacionJpaController();
+        Calendar c = Calendar.getInstance();
         if (fechaInicio.before(fechaFinal)) {
-            Calendar c = Calendar.getInstance();
-            c.setTime(fechaFinal);
+            Date fechaMasDia = fechaFinal;
+            c.setTime(fechaMasDia);
             c.add(Calendar.DATE, 1);
-            fechaFinal = c.getTime();
+            fechaMasDia = c.getTime();
             try {
-                listaHActivacion = modelo.trarReporteHActivacion(fechaInicio, fechaFinal);
+                listaHActivacion = modelo.trarReporteHActivacion(fechaInicio, fechaMasDia);
             } catch (Exception e) {
                 Logger.getLogger(ReportesBean.class.getName()).log(Level.SEVERE, null, e);
             }
-        }else{
-            FacesMessage msg = new FacesMessage("Fecha final debe ser mayor que fecha inicial", "");
+        } else {
+            FacesMessage msg = new FacesMessage("Fecha Final debe ser mayor que Fecha Inicial", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
