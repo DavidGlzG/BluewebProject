@@ -5,6 +5,9 @@
 package utils;
 
 
+import entities.SAplicaciones;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.context.FacesContext;
 import objetos.Usuarios;
 
@@ -38,6 +41,12 @@ public class TraeDatoSesion {
         String usuario = "";
         usuario = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombreUsuario");
         return usuario;
+    }
+    
+    public static List<SAplicaciones> traerListaMenu(){
+        List<SAplicaciones> listaAplicaciones = new ArrayList<>();
+        listaAplicaciones = (List<SAplicaciones>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaAplicaciones");
+        return listaAplicaciones;
     }
     
     public static Usuarios traerUsuarioObjeto() {

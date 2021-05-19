@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -11,29 +12,36 @@
 
             <ui:define name="content">
                 <h:form>
+                    <p:growl id="msg" showDetail="true"/>
                     <p:panel header="Generar Reporte">
                         <p:panelGrid columns="2" >
                             <p:outputLabel value="Id Usuario "/>
-                            <p:inputNumber value="#{reportesBean.idUsuario}" thousandSeparator="" decimalPlaces="0"/>
+                            <p:selectOneMenu value="#{reportesBean.idUsuario}" required="true"
+                                             requiredMessage="Seleccione un Usuario" >
+                                <f:selectItem itemLabel="-Usuarios-" itemValue="" />
+                                <f:selectItems value="#{usuariosBean.listaUsuarios}" var="usuarios"
+                                               itemLabel="#{usuarios.usuario}" itemValue="#{usuarios.idUsuario}"/>
+                            </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Buscar" action="#{reportesBean.listarReportesCClientes()}" update="TblRepCCl"/>
+                        <p:commandButton value="Buscar" action="#{reportesBean.listarReportesCClientes()}" update="TblRepCCl, msg"/>
                     </p:panel>
 
                     <p:panel>
-                        <p:dataTable id="TblRepCCl" value="#{reportesBean.listaResportesCClientes}" var="reportesCClientes">
-                            <p:column headerText="Numero Cliente">
+                        <p:dataTable id="TblRepCCl" value="#{reportesBean.listaResportesCClientes}" var="reportesCClientes"
+                                     paginator="true" rows="5">
+                            <p:column headerText="Numero Cliente" filterBy="#{reportesCClientes.numCliente}">
                                 <p:outputLabel value="#{reportesCClientes.numCliente}"/>
                             </p:column>
-                            <p:column headerText="Nombre Cliente">
+                            <p:column headerText="Nombre Cliente" filterBy="#{reportesCClientes.nombreCliente}">
                                 <p:outputLabel value="#{reportesCClientes.nombreCliente}"/>
                             </p:column>
-                            <p:column headerText="Teléfono Contacto">
+                            <p:column headerText="Teléfono Contacto" filterBy="#{reportesCClientes.telContacto}">
                                 <p:outputLabel value="#{reportesCClientes.telContacto}"/>
                             </p:column>
-                            <p:column headerText="Nombre Distribuidor">
+                            <p:column headerText="Nombre Distribuidor" filterBy="#{reportesCClientes.nombreDistribuidor}">
                                 <p:outputLabel value="#{reportesCClientes.nombreDistribuidor}"/>
                             </p:column>
-                            <p:column headerText="Descripción Ciudad">
+                            <p:column headerText="Descripción Ciudad" filterBy="#{reportesCClientes.descripcionCiudad}">
                                 <p:outputLabel value="#{reportesCClientes.descripcionCiudad}"/>
                             </p:column>
                         </p:dataTable>

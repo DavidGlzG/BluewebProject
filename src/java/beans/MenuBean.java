@@ -43,9 +43,8 @@ public class MenuBean implements Serializable {
      * Metodo que lista un menú dinamicamente segun el usuario activo.
      */
     public void listarMenu() {
-        SAplicacionesJpaController modeloAplicaciones = new SAplicacionesJpaController();
         List<SAplicaciones> listaAplicaciones = new ArrayList<>();
-        listaAplicaciones = modeloAplicaciones.traerListaAplicaciones(TraeDatoSesion.traerUsuario());
+        listaAplicaciones = TraeDatoSesion.traerListaMenu();
 
         DefaultMenuItem menuItem = new DefaultMenuItem();
         modeloMenu = new DefaultMenuModel();
@@ -73,14 +72,14 @@ public class MenuBean implements Serializable {
                     if (listaItem.getIdAplicacion() == 0) {
                         nombreMenuConfirmacion = listaItem.getNombreAplicacion();
                     }
-                    if (nombreMenu == nombreMenuConfirmacion &&
-                            listaItem.getIdAplicacion() != 0) {
-                        
-                            menuDinamicoItem.setValue(listaItem.getNombreAplicacion());
-                            menuDinamicoItem.setUrl("/../DavidProject/faces" + listaItem.getUrl());
-                            menuDinamicoItem.setIcon(listaItem.getIcono());
-                            menuDinamico.getElements().add(menuDinamicoItem);
-                            menuDinamicoItem = new DefaultMenuItem();
+                    if (nombreMenu == nombreMenuConfirmacion
+                            && listaItem.getIdAplicacion() != 0) {
+
+                        menuDinamicoItem.setValue(listaItem.getNombreAplicacion());
+                        menuDinamicoItem.setUrl("/../DavidProject/faces" + listaItem.getUrl());
+                        menuDinamicoItem.setIcon(listaItem.getIcono());
+                        menuDinamico.getElements().add(menuDinamicoItem);
+                        menuDinamicoItem = new DefaultMenuItem();
                     }
                 }
                 modeloMenu.getElements().add(menuDinamico);
@@ -93,7 +92,7 @@ public class MenuBean implements Serializable {
     public MenuModel getModeloMenu() {
         return modeloMenu;
     }
-    
+
     public void setModeloMenu(MenuModel modeloMenu) {
         this.modeloMenu = modeloMenu;
     }

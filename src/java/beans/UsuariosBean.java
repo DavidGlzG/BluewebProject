@@ -5,11 +5,17 @@
  */
 package beans;
 
+import controllers.SAplicacionesJpaController;
+import controllers.SUsuariosJpaController;
+import entities.SAplicaciones;
+import entities.SUsuarios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -29,29 +35,45 @@ import utils.TraeDatoSesion;
  */
 @ManagedBean
 @SessionScoped
-public class UsuariosBean implements Serializable{
+public class UsuariosBean implements Serializable {
 
     private Usuarios usuario = new Usuarios();
-    private List<Usuarios> listaUsuarios;
+    private List<SUsuarios> listaUsuarios;
+
+    @PostConstruct
+    public void init() {
+        listarUsuarios();
+    }
+
+    public void listarUsuarios() {
+        SUsuariosJpaController modelo = new SUsuariosJpaController();
+        listaUsuarios = modelo.findSUsuariosEntities();
+    }
 
     /**
-     * Valida el usuario en el login. En caso de ser correcto almacena los datos del usuario en
-     * variables de sesion, de lo contrario muestra mensaje de error.
+     * Valida el usuario en el login. En caso de ser correcto almacena los datos
+     * del usuario en variables de sesion, de lo contrario muestra mensaje de
+     * error.
      */
     public void validarUsuario() {
 
         try {
             UsuariosModelo modelo = new UsuariosModelo();
             RespuestaUsuarios rs = modelo.validarUsuarios(usuario);
+            SAplicacionesJpaController modeloAplicaciones = new SAplicacionesJpaController();
+            List<SAplicaciones> listaAplicaciones = new ArrayList<>();
+
             FacesContext context = FacesContext.getCurrentInstance();
             if (rs.getRespuesta().getIdRespuesta() == 0) {
                 usuario = rs.getUsuario();
+                listaAplicaciones = modeloAplicaciones.traerListaAplicaciones(usuario.getUsuario());
 
                 context.getExternalContext().getSessionMap().put("idUsuario", usuario.getIdUsuario());
                 context.getExternalContext().getSessionMap().put("idPerfil", usuario.getIdPerfil());
                 context.getExternalContext().getSessionMap().put("usuario", usuario.getUsuario());
                 context.getExternalContext().getSessionMap().put("nombreUsuario", usuario.getNombreUsuarios());
                 context.getExternalContext().getSessionMap().put("UsuarioObjeto", usuario);
+                context.getExternalContext().getSessionMap().put("listaAplicaciones", listaAplicaciones);
                 usuario = new Usuarios();
                 String ctxPath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getContextPath();
                 context.getExternalContext().redirect(ctxPath + "/faces/inicio/inicio.xhtml");
@@ -67,7 +89,7 @@ public class UsuariosBean implements Serializable{
     }
 
     /**
-     * Verifica que una sesion se encuentre activa. Si el usuario es igual a 
+     * Verifica que una sesion se encuentre activa. Si el usuario es igual a
      * nullo entonces redirige a una pagina de acceso invalido.
      */
     public void verificarSesion() {
@@ -83,7 +105,8 @@ public class UsuariosBean implements Serializable{
     }
 
     /**
-     * Metodo para invalidar las variables de sesion y redirige a la pagina donde esta el login
+     * Metodo para invalidar las variables de sesion y redirige a la pagina
+     * donde esta el login
      */
     public void salirSesion() {
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
@@ -100,18 +123,17 @@ public class UsuariosBean implements Serializable{
     public Usuarios getUsuario() {
         return usuario;
     }
-    
+
     public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
     }
-    
-    public List<Usuarios> getListaUsuarios() {
+
+    public List<SUsuarios> getListaUsuarios() {
         return listaUsuarios;
     }
-    
-    public void setListaUsuarios(List<Usuarios> listaUsuarios) {
+
+    public void setListaUsuarios(List<SUsuarios> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
 //</editor-fold>
-
 }

@@ -28,32 +28,38 @@
 
                     <p:panel>
                         <p:dataTable id="dtbRep" value="#{reportesBean.listaHActivacion}" var="activaciones" 
-                                     paginator="true" rows="5">
-                            <p:column headerText="ICCID">
+                                     paginator="true" rows="5" >
+                            <p:column headerText="ICCID" filterBy="#{activaciones.iccid}" 
+                                      sortBy="#{activaciones.iccid}">
                                 <p:outputLabel value="#{activaciones.iccid}"/>
                             </p:column>
-                            <p:column headerText="IMEI">
+                            <p:column headerText="IMEI" filterBy="#{activaciones.imei}"
+                                      sortBy="#{activaciones.imei}">
                                 <p:outputLabel value="#{activaciones.imei}"/>
                             </p:column>
-                            <p:column headerText="Distribuidor">
+                            <p:column headerText="Distribuidor" filterBy="#{activaciones.distribuidor}"
+                                      sortBy="#{activaciones.distribuidor}">
                                 <p:outputLabel value="#{activaciones.distribuidor}"/>
                             </p:column>
-                            <p:column headerText="Cliente">
+                            <p:column headerText="Cliente" filterBy="#{activaciones.cliente}"
+                                      sortBy="#{activaciones.cliente}">
                                 <p:outputLabel value="#{activaciones.cliente}"/>
                             </p:column>
-                            <p:column headerText="Descripción Tipo">
+                            <p:column headerText="Descripción Tipo" filterBy="#{activaciones.descripcionTipo}"
+                                      sortBy="#{activaciones.descripcionTipo}">
                                 <p:outputLabel value="#{activaciones.descripcionTipo}"/>
                             </p:column>
-                            <p:column headerText="Respuesta Aplicación">
+                            <p:column headerText="Respuesta Aplicación" filterBy="#{activaciones.respuestaAplicacion}" 
+                                      sortBy="#{activaciones.respuestaAplicacion}">
                                 <p:outputLabel value="#{activaciones.respuestaAplicacion}"/>
                             </p:column>
-                            <p:column headerText="Teléfono">
+                            <p:column headerText="Teléfono" filterBy="#{activaciones.telefono}" sortBy="#{activaciones.telefono}">
                                 <p:outputLabel value="#{activaciones.telefono}"/>
                             </p:column>
-                            <p:column headerText="Fecha Petición">
+                            <p:column headerText="Fecha Petición" sortBy="#{activaciones.fechaPeticion}" >
                                 <p:calendar disabled="true" pattern="dd/MM/yyyy" value="#{activaciones.fechaPeticion}"/>
                             </p:column>
-                            <p:column headerText="Fecha Respuesta">
+                            <p:column headerText="Fecha Respuesta" sortBy="#{activaciones.fechaRespuesta}">
                                 <p:calendar disabled="true" pattern="dd/MM/yyyy" value="#{activaciones.fechaRespuesta}"/>
                             </p:column>
                         </p:dataTable>
