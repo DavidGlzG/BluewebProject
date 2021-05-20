@@ -8,6 +8,8 @@
     <class>entities.HActivacion</class>
     <class>entities.CCiudad</class>
     <class>entities.SUsuarios</class>
+    <class>entities.CDistribuidor</class>
+    <class>entities.CClientes</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <properties>

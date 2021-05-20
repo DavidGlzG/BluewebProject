@@ -37,13 +37,21 @@
                                       sortBy="#{activaciones.imei}">
                                 <p:outputLabel value="#{activaciones.imei}"/>
                             </p:column>
-                            <p:column headerText="Distribuidor" filterBy="#{activaciones.distribuidor}"
-                                      sortBy="#{activaciones.distribuidor}">
-                                <p:outputLabel value="#{activaciones.distribuidor}"/>
+                            <p:column headerText="Distribuidor" filterBy="#{activaciones.idDistribuidor.nombre}"
+                                      sortBy="#{activaciones.idDistribuidor.nombre}">
+                                <p:outputLabel value="#{activaciones.idDistribuidor.nombre}"/>
                             </p:column>
-                            <p:column headerText="Cliente" filterBy="#{activaciones.cliente}"
-                                      sortBy="#{activaciones.cliente}">
-                                <p:outputLabel value="#{activaciones.cliente}"/>
+                            <p:column headerText="Cliente" filterBy="#{activaciones.idCliente.nombreCliente}"
+                                      sortBy="#{activaciones.idCliente.nombreCliente}">
+                                <p:outputLabel value="#{activaciones.idCliente.nombreCliente}"/>
+                            </p:column>
+                            <p:column headerText="Ciudad" filterBy="#{activaciones.idCiudad.descripcion}"
+                                      sortBy="#{activaciones.idCiudad.descripcion}">
+                                <p:outputLabel value="#{activaciones.idCiudad.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Lada" filterBy="#{activaciones.idCiudad.lada}"
+                                      sortBy="#{activaciones.idCiudad.lada}">
+                                <p:outputLabel value="#{activaciones.idCiudad.lada}"/>
                             </p:column>
                             <p:column headerText="Descripción Tipo" filterBy="#{activaciones.descripcionTipo}"
                                       sortBy="#{activaciones.descripcionTipo}">

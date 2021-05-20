@@ -33,9 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HActivacion.findByIdActivacion", query = "SELECT h FROM HActivacion h WHERE h.idActivacion = :idActivacion"),
     @NamedQuery(name = "HActivacion.findByIccid", query = "SELECT h FROM HActivacion h WHERE h.iccid = :iccid"),
     @NamedQuery(name = "HActivacion.findByImei", query = "SELECT h FROM HActivacion h WHERE h.imei = :imei"),
-    @NamedQuery(name = "HActivacion.findByIdDistribuidor", query = "SELECT h FROM HActivacion h WHERE h.idDistribuidor = :idDistribuidor"),
     @NamedQuery(name = "HActivacion.findByDistribuidor", query = "SELECT h FROM HActivacion h WHERE h.distribuidor = :distribuidor"),
-    @NamedQuery(name = "HActivacion.findByIdCliente", query = "SELECT h FROM HActivacion h WHERE h.idCliente = :idCliente"),
     @NamedQuery(name = "HActivacion.findByCliente", query = "SELECT h FROM HActivacion h WHERE h.cliente = :cliente"),
     @NamedQuery(name = "HActivacion.findByCiudad", query = "SELECT h FROM HActivacion h WHERE h.ciudad = :ciudad"),
     @NamedQuery(name = "HActivacion.findByIdTipoTelefonia", query = "SELECT h FROM HActivacion h WHERE h.idTipoTelefonia = :idTipoTelefonia"),
@@ -52,6 +50,14 @@ public class HActivacion implements Serializable {
     @JoinColumn(name = "ID_CIUDAD", referencedColumnName = "ID_CIUDAD")
     @ManyToOne
     private CCiudad idCiudad;
+    
+    @JoinColumn(name = "ID_DISTRIBUIDOR", referencedColumnName = "ID_DISTRIBUIDOR")
+    @ManyToOne
+    private CDistribuidor idDistribuidor;
+    
+     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
+    @ManyToOne
+    private CClientes idCliente;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,12 +71,8 @@ public class HActivacion implements Serializable {
     private String iccid;
     @Column(name = "IMEI")
     private String imei;
-    @Column(name = "ID_DISTRIBUIDOR")
-    private Long idDistribuidor;
     @Column(name = "DISTRIBUIDOR")
     private String distribuidor;
-    @Column(name = "ID_CLIENTE")
-    private Long idCliente;
     @Column(name = "CLIENTE")
     private String cliente;
     @Column(name = "CIUDAD")
@@ -96,6 +98,7 @@ public class HActivacion implements Serializable {
     private Date fechaServidor;
     @Column(name = "ID_USUARIO")
     private Long idUsuario;
+    
 
     public HActivacion() {
     }
@@ -141,28 +144,12 @@ public class HActivacion implements Serializable {
         this.imei = imei;
     }
 
-    public Long getIdDistribuidor() {
-        return idDistribuidor;
-    }
-
-    public void setIdDistribuidor(Long idDistribuidor) {
-        this.idDistribuidor = idDistribuidor;
-    }
-
     public String getDistribuidor() {
         return distribuidor;
     }
 
     public void setDistribuidor(String distribuidor) {
         this.distribuidor = distribuidor;
-    }
-
-    public Long getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
     }
 
     public String getCliente() {
@@ -284,6 +271,22 @@ public class HActivacion implements Serializable {
 
     public void setIdCiudad(CCiudad idCiudad) {
         this.idCiudad = idCiudad;
+    }
+
+    public CDistribuidor getIdDistribuidor() {
+        return idDistribuidor;
+    }
+
+    public void setIdDistribuidor(CDistribuidor idDistribuidor) {
+        this.idDistribuidor = idDistribuidor;
+    }
+
+    public CClientes getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(CClientes idCliente) {
+        this.idCliente = idCliente;
     }
     
 }
